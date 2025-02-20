@@ -7,7 +7,6 @@ from discord import app_commands
 from discord.ext import commands
 from groq import Groq
 
-
 load_dotenv()
 
 client = Groq(
@@ -16,12 +15,8 @@ client = Groq(
 
 TOKEN = os.environ.get("DISCORD")
 
-# Define the bot with command prefix and intents
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
-
-# Create a slash command tree
-
 
 @bot.event
 async def on_ready():
@@ -32,7 +27,6 @@ async def on_ready():
     except Exception as e:
         print(f"Failed to sync commands: {e}")
 
-# Define a slash command
 url = "https://api.groq.com/openai/v1/models"
 headers = {
     "Authorization": f"Bearer {os.environ.get('GROQ_API_KEY')}",
@@ -58,9 +52,6 @@ async def ask(interaction: discord.Interaction, message: str, model: str = "llam
         max_tokens=1024,
         stream=False
     )
-
-
     await interaction.response.send_message(f"**{chat.choices[0].message.content}**")
 
-# Run the bot
 bot.run(TOKEN)
